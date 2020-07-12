@@ -124,11 +124,11 @@ def assess_scene (args, mqttclient, duration_report , leave_report, current_dura
         elif current_duration >  tt:
             leave_report = current_counter            
     else:
-        '''  if current count doesn't equal  the counter, then make it a previous counter and put the current count in the current counter. which means the number of people has change so change the current counter according to the new count. then check i f the current duration is greater than the leave time threshold, if yes start counting for another duration and move the current_counter to previous_counter, otherwise add the previous duaration to the current duration and set the previous uration to zero '''
+        '''  if current count doesn't equal  the counter, then make it a previous counter and put the current count in the current counter. which means the number of people has change so change the current counter according to the new count. then check i f the current duration is less than the leave time threshold, if yes  add the lag time to the current duration and set the previous duration to zero, otherwise start counting for another duration for a new person and move the current_counter to previous_counter '''
         if current_duration < tt:
             previous_counter = current_counter
             current_counter = current_count 
-            current_duration = previous_duration + current_duration
+            current_duration += previous_duration
             previous_duration = 0 
         else:
             previous_counter = current_counter
